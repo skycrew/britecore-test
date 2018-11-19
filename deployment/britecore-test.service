@@ -1,0 +1,15 @@
+[Unit]
+Description=Gunicorn instance to serve britecore-test
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/home/zaki/britecore-test
+Environment="PYTHONPATH=/home/zaki/britecore-test"
+ExecStart=/usr/local/bin/gunicorn --workers 2 --bind localhost:8080 wsgi:app --pid /tmp/britecore-test-flask.pid --reload
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target

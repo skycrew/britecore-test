@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% include "includes/head.html" %}
+        <title>Home | Feature Request</title>
+    </head>
+    <body>
+        {% include "includes/navbar.html" %}
+
+        <main role="main">
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>List of Feature Requests</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Client</th>
+                                    <th scope="col">Priority</th>
+                                    <th scope="col">Target Date</th>
+                                    <th scope="col">Product Area</th>
+                                    <th scope="col"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for fr in all_feature_requests %}
+                                <tr>
+                                    <th scope="row">{{loop.index}}</th>
+                                    <td>{{fr.title}}</td>
+                                    <td>{{fr.description|truncate(50, True)}}</td>
+                                    <td><a href="/client/{{fr.client.fullname}}">{{fr.client.fullname}}</a></td>
+                                    <td>{{fr.priority}}</td>
+                                    <td>{{fr.targetDate.strftime("%Y-%m-%d")}}</td>
+                                    <td>{{fr.product_area.name}}</td>
+                                    <td><a data-toggle="modal" data-target="#editModal" href="#" data-edit="{{fr.id}}" class="editBtn">Edit</a> | <a href="/delete/{{fr.id}}">Delete</a></td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Modal -->
+            <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addModalTitle">Add Feature Request</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addForm">
+                                <div class="alert alert-danger error-placeholder" role="alert"></div>
+                                <div class="form-group">
+                                    <label for="frTitle">Title</label>
+                                    <input type="text" class="form-control" id="frTitle" name="frTitle" placeholder="A short, descriptive name of the feature request.">
+                                </div>
+                                <div class="form-group">
+                                    <label for="frDescription">Description</label>
+                                    <textarea class="form-control" id="frDescription" name="frDescription" rows="3" placeholder="A long description of the feature request."></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="frClient">Client</label>
+                                    <select class="form-control" id="frClient" name="frClient">
+                                        {% for client in all_clients %}
+                                        <option value="{{client.id}}"{% if client_name==client.fullname %} selected="selected"{% endif %}>{{client.fullname}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="frPriority">Priority</label>
+                                    <input type="number" class="form-control" id="frPriority" name="frPriority" placeholder="A numbered priority according to the client.">
+                                </div>
+                                <div class="form-group">
+                                    <label for="frTargetDate">Target Date</label>
+                                    <input type="text" class="form-control" id="frTargetDate" name="frTargetDate" placeholder="The date that the client is hoping to have the feature.">
+                                </div>
+                                <div class="form-group">
+                                    <label for="frProduct">Product Area</label>
+                                    <select class="form-control" id="frProduct" name="frProduct">
+                                        {% for product in all_products %}
+                                        <option value="{{product.id}}">{{product.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="saveAdd">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Modal -->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalTitle">Edit Feature Request</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="editForm">
+                                <div class="alert alert-danger error-placeholder" role="alert"></div>
+                                <div class="form-group">
+                                    <label for="frTitleEdit">Title</label>
+                                    <input type="text" class="form-control" id="frTitleEdit" name="frTitleEdit" placeholder="A short, descriptive name of the feature request.">
+                                </div>
+                                <div class="form-group">
+                                    <label for="frDescriptionEdit">Description</label>
+                                    <textarea class="form-control" id="frDescriptionEdit" name="frDescriptionEdit" rows="3" placeholder="A long description of the feature request."></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="frClientEdit">Client</label>
+                                    <select class="form-control" id="frClientEdit" name="frClientEdit">
+                                        {% for client in all_clients %}
+                                        <option value="{{client.id}}"{% if client_name==client.fullname %} selected="selected"{% endif %}>{{client.fullname}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="frPriorityEdit">Priority</label>
+                                    <input type="number" class="form-control" id="frPriorityEdit" name="frPriorityEdit" placeholder="A numbered priority according to the client.">
+                                </div>
+                                <div class="form-group">
+                                    <label for="frTargetDateEdit">Target Date</label>
+                                    <input type="text" class="form-control" id="frTargetDateEdit" name="frTargetDateEdit" placeholder="The date that the client is hoping to have the feature.">
+                                </div>
+                                <div class="form-group">
+                                    <label for="frProductEdit">Product Area</label>
+                                    <select class="form-control" id="frProductEdit" name="frProductEdit">
+                                        {% for product in all_products %}
+                                        <option value="{{product.id}}">{{product.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <input type="hidden" name="frIdEdit" id="frIdEdit">
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="saveEdit">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        {% include "includes/js.html" %}
+    </body>
+</html>
