@@ -17,7 +17,9 @@ Hosted in GCP (micro instance) running on Ubuntu 18.04 LTS
     ./dockerhelper.py build
     ```
  - Start flask app
- `./dockerhelper.py start`
+ ```bash
+ ./dockerhelper.py start
+ ```
   After you executed above command, you can now point your browser to https://localhost:8080
  - Or you can run tests for this app
 ```bash
