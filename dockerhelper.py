@@ -30,6 +30,12 @@ def run_tests(*args, **kwargs):
     execute_cmd(cmd)
 
 
+def watch_sass(*args, **kwargs):
+    sass_cmd = "sass --watch /app/web/static/css:/app/web/static/css"
+    cmd = "docker exec -it %s sh -c '%s'" % (app, sass_cmd)
+    execute_cmd(cmd)
+
+
 def execute_cmd(cmd):
     res = Popen(cmd, shell=True)
     output, error = res.communicate()
@@ -46,7 +52,8 @@ if __name__ == "__main__":
     sp_start_docker = subparser.add_parser("start")
     sp_stop_docker = subparser.add_parser("stop")
     sp_ssh_docker = subparser.add_parser("ssh")
-    sp_runtests_docker = subparser.add_parser("run_tests")
+    sp_run_tests_docker = subparser.add_parser("run_tests")
+    sp_watch_sass_docker = subparser.add_parser("watch_sass")
 
     args = parser.parse_args()
     params = dict(vars(args))
