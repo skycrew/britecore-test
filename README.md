@@ -17,22 +17,22 @@ Hosted in GCP (micro instance) running on Ubuntu 18.04 LTS
     ./dockerhelper.py build
     ```
  - Start flask app
- ```bash
- ./dockerhelper.py start
- ```
-  After you executed above command, you can now point your browser to https://localhost:8080
+    ```bash
+    ./dockerhelper.py start
+    ```
+    After you executed above command, you can now point your browser to https://localhost:8080
  - Or you can run tests for this app
-```bash
-./dockerhelper.py run_tests
-```
+   ```bash
+   ./dockerhelper.py run_tests
+   ```
  - To stop the container
-```bash
-./dockerhelper.py stop
-```
+   ```bash
+   ./dockerhelper.py stop
+   ```
  - To edit the source code, you can SSH into the container
-```bash
-./dockerhelper.py ssh
-```
+   ```bash
+   ./dockerhelper.py ssh
+   ```
  - Or you can mount the source code to the container so that any code changed, will be reflected in the container
 
 ### Deployment
