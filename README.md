@@ -1,9 +1,11 @@
 # Britecore Implementation Engineer Hiring Project: Feature Request App
 
-This repo contain small web application that allow IWS staff to log a feature request, requested by the client. The web application will list all feature requests. Staff can create, update or delete the feature requests. This repo should meet the minimum requirements as listed in the **[QUESTION](https://github.com/skycrew/britecore-test/blob/master/QUESTION.md "QUESTION")**
+This repo contain small web application that allow IWS staff to log a feature request, requested by the client. The web application will list all feature requests. Staff can create, update or delete the feature requests. This project should meet the minimum requirements as listed in the **[QUESTION](https://github.com/skycrew/britecore-test/blob/master/QUESTION.md "QUESTION")**
 
 ### Live Demo:
 https://britecore-test.ml/
+
+Hosted in GCP (micro instance) running on Ubuntu 18.04 LTS
 
 ### Setting Up Development Env
 
